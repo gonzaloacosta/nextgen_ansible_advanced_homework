@@ -1,7 +1,6 @@
 ---
-
-# tasks file for osp.item..
-- name: Create osp item..instance
+# tasks file for osp.servers
+- name: Create osp server instance
   os_server:
     cloud: "{{ item.0.cloud }}" 
     name: "{{ item.0.name }}"
@@ -19,7 +18,7 @@
       curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo 
       cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
   with_subelements:
-    - "{{ osp_server }}"
+    - "{{ osp_servers }}"
     - meta
   async: 900
   poll: 0
@@ -42,7 +41,7 @@
     wait: true
     timeout: 180
   with_subelements:
-    - "{{ osp_server }}"
+    - "{{ osp_servers }}"
     - meta
   register: r_floating_ips
 
