@@ -2,7 +2,7 @@
 
 # tasks file for osp.item..
 - name: Create osp item..instance
-  os_item..
+  os_server:
     cloud: "{{ item.0.cloud }}" 
     name: "{{ item.0.name }}"
     image: "{{ item.0.image }}"
