@@ -2,6 +2,9 @@
 # vars file for osp.servers
 osp_servers:
   frontend:
+    cloud: openstack
+    int_network: int_network
+    ext_network: ext_network
     name: frontend
     state: present
     image: rhel-guest
@@ -11,6 +14,9 @@ osp_servers:
     meta:
       - { group: frontends, deployment_name: QA}
   app1:
+    cloud: openstack
+    int_network: int_network
+    ext_network: ext_network
     name: app1
     state: present
     image: rhel-guest
@@ -20,6 +26,9 @@ osp_servers:
     meta:
       - { group: apps, deployment_name: QA}
   app2:
+    cloud: openstack
+    int_network: int_network
+    ext_network: ext_network
     name: app2
     state: present
     image: rhel-guest
@@ -29,6 +38,9 @@ osp_servers:
     meta:
       - { group: apps, deployment_name: QA}
   db:
+    cloud: openstack
+    int_network: int_network
+    ext_network: ext_network
     name: db
     state: present
     image: rhel-guest

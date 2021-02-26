@@ -1,3 +1,58 @@
 ---
 
-# tasks file for osp.servers
+# tasks file for osp.item..
+- name: Create osp item..instance
+  os_item..
+    cloud: "{{ item.0.cloud }}" 
+    name: "{{ item.0.name }}"
+    image: "{{ item.0.image }}"
+    key_name: "{{ item.0.key_name }}"
+    flavor: "{{ item.0.flavor }}"
+    security_groups: "{{ item.0.security_group }}"
+    nics:
+      - net-name: "{{ item.0.int_network }}"
+    meta: "group={{ item.1.group }},deployment_name={{ item.1.deployment_name }}"
+    userdata: |
+      #!/bin/bash
+      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub 
+      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+      curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo 
+      cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
+  with_subelements:
+    - "{{ osp_server }}"
+    - meta
+  async: 900
+  poll: 0
+  register: r_instances
+
+- name: Wait for async OSP instance creation to complete
+  async_status: "jid={{ item.ansible_job_id }}"
+  register: r_wait
+  until: r_wait.finished
+  retries: 900
+  loop: "{{ r_instances.results }}"
+
+- name: Add floating IP to instances
+  os_floating_ip:
+    cloud: "{{ item.0.cloud }}" 
+    state: present 
+    reuse: yes
+    server: "{{ item.0.name }}"
+    network: "{{ item.0.ext_network }}"
+    wait: true
+    timeout: 180
+  with_subelements:
+    - "{{ osp_server }}"
+    - meta
+  register: r_floating_ips
+
+- name: Wait for servers by name to be available
+  wait_for:
+    host: "{{ __fip.floating_ip.floating_ip_address }}"
+    port: 22
+    search_regex: OpenSSH
+    timeout: 600
+  loop: "{{ r_floating_ips.results }}"
+  loop_control:
+    loop_var: __fip
+  delegate_to: "{{ inventory_hostname }}"    
