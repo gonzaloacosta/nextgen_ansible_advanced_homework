@@ -1,11 +1,12 @@
 ---
 # vars file for roles/config-tower
+# password defined ./credentials.yml with ansible vault
 org_name: Default 
 scm_branch: master 
 scm_url: "{{ github_repo }}"
 proj_name: "00_Homework Assignment"
 user_name: admin 
-password: r3dh4t1!
+#password: r3dh4t1!
 ssh_cred_name: "Connect_to_workstation"
 user_cred_name: "cloud-user"
 user_cred_path: "/root/.ssh/openstack.pem"
@@ -41,4 +42,4 @@ job_template_name_3tier_app_aws: "09_3 tier app on Prod"
 aws_cred_name: "Creds for AWS instances"
 job_template_smoke_aws: "10_Smoke test Prod env"
 aws_smoke_app_playbook: site-smoketest-aws.yml
-
+tower_host: tower1.{{tower_GUID}}.example.opentlc.com
