@@ -3,9 +3,9 @@
   gather_facts: false
   tasks:
   - name: OpenStack servers
-    os_server_info:
+    os_server_facts:
       cloud: openstack
-      server: "frontend"
+      server: 'frontend'
     register: openstack_info 
     tags:
       - osp.smoke
