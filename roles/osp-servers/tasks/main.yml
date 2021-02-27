@@ -2,7 +2,7 @@
 # tasks file for osp.servers
 - name: Create osp server instance
   os_server:
-    cloud: "{{ item.0.cloud }}" 
+    cloud: "{{ item.0.cloud }}"
     name: "{{ item.0.name }}"
     image: "{{ item.0.image }}"
     key_name: "{{ item.0.key_name }}"
@@ -13,9 +13,9 @@
     meta: "group={{ item.1.group }},deployment_name={{ item.1.deployment_name }}"
     userdata: |
       #!/bin/bash
-      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub 
+      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
       cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
-      curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo 
+      curl -o /tmp/internal.repo http://www.opentlc.com/download/ansible_bootcamp/repo/internal.repo
       cp /tmp/internal.repo /etc/yum.repos.d/internal.repo
   with_subelements:
     - "{{ osp_servers }}"
@@ -31,10 +31,20 @@
   retries: 900
   loop: "{{ r_instances.results }}"
 
+- name: Check the all OSP instance are running up
+  os_server_action:
+    action: start
+    cloud: "{{ item.0.cloud }}"
+    server: "{{ item.0.name }}"
+    timeout: "{{ osp_server_timeout }}"
+  with_subelements:
+    - "{{ osp_servers }}"
+    - meta
+
 - name: Add floating IP to instances
   os_floating_ip:
-    cloud: "{{ item.0.cloud }}" 
-    state: present 
+    cloud: "{{ item.0.cloud }}"
+    state: present
     reuse: yes
     server: "{{ item.0.name }}"
     network: "{{ item.0.ext_network }}"
@@ -54,4 +64,4 @@
   loop: "{{ r_floating_ips.results }}"
   loop_control:
     loop_var: __fip
-  delegate_to: "{{ inventory_hostname }}"    
+  delegate_to: "{{ inventory_hostname }}"

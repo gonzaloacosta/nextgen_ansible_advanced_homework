@@ -1,5 +1,6 @@
 ---
 # vars file for osp.servers
+osp_server_timeout: 600
 osp_servers:
   frontend:
     cloud: openstack
