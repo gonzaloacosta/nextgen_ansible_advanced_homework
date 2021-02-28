@@ -40,7 +40,7 @@
     cloud: openstack
     state: present
     reuse: yes
-    server: "{{ item.0.name }}"
+    server: "{{ item.value.name }}"
     network: ext_network
     wait: true
     timeout: 200
