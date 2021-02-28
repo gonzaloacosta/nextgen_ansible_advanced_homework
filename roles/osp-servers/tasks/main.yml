@@ -2,15 +2,15 @@
 # tasks file for osp.servers
 - name: Create osp server instance
   os_server:
-    cloud: "{{ item.0.cloud }}"
+    cloud: openstack
     name: "{{ item.0.name }}"
     image: "{{ item.0.image }}"
     key_name: "{{ item.0.key_name }}"
     flavor: "{{ item.0.flavor }}"
     security_groups: "{{ item.0.security_group }}"
     nics:
-      - net-name: "{{ item.0.int_network }}"
-    meta: "group={{ item.1.group }},deployment_name={{ item.1.deployment_name }}"
+      - net-name: int_network
+    meta: "{{ item.1 }}"
     userdata: |
       #!/bin/bash
       curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
@@ -20,48 +20,50 @@
   with_subelements:
     - "{{ osp_servers }}"
     - meta
-  async: 900
-  poll: 0
-  register: r_instances
-
-- name: Wait for async OSP instance creation to complete
-  async_status: "jid={{ item.ansible_job_id }}"
-  register: r_wait
-  until: r_wait.finished
-  retries: 900
-  loop: "{{ r_instances.results }}"
-
+  tags:
+    - test.servers
+    
 - name: Check the all OSP instance are running up
   os_server_action:
     action: start
-    cloud: "{{ item.0.cloud }}"
+    cloud: openstack
     server: "{{ item.0.name }}"
-    timeout: "{{ osp_server_timeout }}"
+    timeout: 600
   with_subelements:
     - "{{ osp_servers }}"
     - meta
+  tags:
+    - test.servers
 
 - name: Add floating IP to instances
   os_floating_ip:
-    cloud: "{{ item.0.cloud }}"
+    cloud: openstack
     state: present
     reuse: yes
     server: "{{ item.0.name }}"
-    network: "{{ item.0.ext_network }}"
+    network: ext_network
     wait: true
-    timeout: 180
-  with_subelements:
+    timeout: 200
+  with_dict: 
     - "{{ osp_servers }}"
-    - meta
-  register: r_floating_ips
+  tags:
+    - test.servers
+  
+- name: OpenStack servers
+  os_server_facts:
+    cloud: openstack
+  register: result
+  tags:
+    - test.servers
 
-- name: Wait for servers by name to be available
+- name: Wait for server to be available
   wait_for:
-    host: "{{ __fip.floating_ip.floating_ip_address }}"
+    host: "{{ item.public_v4 }}"
     port: 22
     search_regex: OpenSSH
     timeout: 600
-  loop: "{{ r_floating_ips.results }}"
-  loop_control:
-    loop_var: __fip
   delegate_to: "{{ inventory_hostname }}"
+  with_items: 
+    - "{{ result.ansible_facts.openstack_servers }}"
+  tags:
+    - test.servers
