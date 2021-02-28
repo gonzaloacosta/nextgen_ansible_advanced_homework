@@ -1,6 +1,6 @@
-- name: Include sensitive vars credentials
+#- name: Include sensitive vars credentials
   #you must use --as-vault-pass when used the role
-  include_vars: vars/credentials.yml
+  #include_vars: vars/credentials.yml
 
 - name: Create Homework Assignment project
   tower_project:
