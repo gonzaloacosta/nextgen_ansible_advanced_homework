@@ -1,12 +1,11 @@
 ---
 # vars file for roles/config-tower
-# password defined ./credentials.yml with ansible vault
 org_name: Default 
 scm_branch: master 
 scm_url: "{{ github_repo }}"
 proj_name: "00_Homework Assignment"
 user_name: admin 
-#password: r3dh4t1!
+password: r3dh4t1!
 ssh_cred_name: "Connect_to_workstation"
 user_cred_name: "cloud-user"
 user_cred_path: "/root/.ssh/openstack.pem"
