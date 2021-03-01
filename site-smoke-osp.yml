@@ -12,7 +12,7 @@
   - name: Check curl on load balancer frontend servers
     uri:
       url: "http://{{ item.public_v4 }}"
-      return_content: yeos
+      return_content: yes
       timeout: 600
     with_items:
       - "{{ openstack_info.ansible_facts.openstack_servers }}"
