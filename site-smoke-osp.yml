@@ -9,6 +9,17 @@
     tags:
       - osp.smoke
 
+  - debug:
+      msg: "{{ openstack_info }}"
+
+  - name: Wait until app will be up and running
+    wait_for:
+      host: "{{ item.public_v4 }}"
+      port: 80
+      delay: 10
+    with_items:
+      - "{{ openstack_info.ansible_facts.openstack_servers }}"
+       
   - name: Check curl on load balancer frontend servers
     uri:
       url: "http://{{ item.public_v4 }}"
