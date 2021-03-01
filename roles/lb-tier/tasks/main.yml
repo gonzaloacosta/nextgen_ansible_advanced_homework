@@ -18,8 +18,3 @@
     src: haproxy.cfg.j2
     dest: /etc/haproxy/haproxy.cfg
     mode: 0644
-
-- name: start {{ payload }}
-  service:
-    name: "{{ payload }}"
-    state: restarted
