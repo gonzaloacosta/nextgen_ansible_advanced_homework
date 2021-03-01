@@ -18,6 +18,6 @@
 
   - name: Fail if 'Ansible has done its job' is not in the page content
     fail:
-    when: "'Ansible has done its job' not in webpage.content[0].result"
+    when: "'Ansible has done its job' not in webpage.results[0].content"
     tags:
     - aws.smoke
