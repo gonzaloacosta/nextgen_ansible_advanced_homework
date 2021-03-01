@@ -1,16 +1,23 @@
-- hosts: frontends
+- name: Smoke Test - Prod Environment
+  hosts: frontends
   gather_facts: false
   tasks:
-  - name: Curl website
+  - name: Curl website - Prod Environment
     uri:
-      url: "http://localhost"
+      url: "http://{{ item }}"
       return_content: yes
       status_code: 200
+    with_items:
+    - "{{ inventory_hostname }}"
     register: webpage
-        
-  - debug: var=webpage.content
+    tags:
+    - aws.smoke
+
+  - debug: 
+      msg: "{{ webpage.content }}"
 
   - name: Fail if 'Ansible has done its job' is not in the page content
     fail:
     when: "'Ansible has done its job' not in webpage.content"
-
+    tags:
+    - aws.smoke
