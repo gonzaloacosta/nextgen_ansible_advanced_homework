@@ -27,11 +27,6 @@ backend app-servers
     option forwardfor
     {% if groups['apps'] is defined%}
       {% for host in groups['apps'] %}
-        server app{{loop.index}} {{ hostvars[host]['inventory_hostname'] }}:8080 cookie app{{loop.index}} check
-      {% endfor %}
-    {% endif %}
-    {% if groups['tag_AnsibleGroup_apps'] is defined %}
-      {% for host in groups['tag_AnsibleGroup_apps'] %}
-        server app{{loop.index}} {{ hostvars[host]['ec2_private_ip_address'] }}:8080 cookie app{{loop.index}} check
+        server app{{loop.index}} {{ hostvars[host]['all_ipv4_address'][0] }}:8080 cookie app{{loop.index}} check
       {% endfor %}
     {% endif %}
