@@ -1,45 +1,26 @@
 ---
-# tasks file for app-tier
-- name: Install the tomcat package
-  package:
-    name: tomcat
+- name: Install {{ payload }}
+  yum:
+    name: "{{ payload }}"
     state: latest
 
-- name: Create Tomcat WEBROOT
+- name: Enable {{ payload }} at boot
+  service:
+    name: "{{ payload }}"
+    enabled: yes
+
+- name: Create tomcat default web directory
   file:
-    path: "{{ app-tier-root }}/ROOT"
+    path: "{{ tomcat_web_root }}"
     state: directory
 
-- name: copy static index.html to tomcat webapps/ansible/index.html
+- name: Copy static index.html to tomcat webroot
   template:
-    src: templates/index.html.j2
-    dest: "{{ app-tier-root }}/ROOT/index.html"
-  notify:
-    - restart tomcat
+    src: index.html.j2
+    dest: "{{ tomcat_web_root }}"/index.html
+    mode: 0644
 
-- name: create Ansible directory
-  file:
-    path: "{{ app-tier-root }}/ansible"
-    state: directory
-
-- name: copy static index.html to tomcat webapps/ansible/index.html
-  template:
-    src: templates/index.html.j2
-    dest: "{{ app-tier-root }}/ansible/index.html"
-
-- name: enable Tomcat
+- name: Restart tomcat
   service:
-    name: tomcat
-    state: started
-    enabled: true
-
-- name: Install the apache package
-  package:
-    name: httpd
-    state: latest
-
-- name: enable apache at boot
-  service:
-    name: httpd
-    state: started
-    enabled: true
+    name: "{{ payload }}"
+    state: restarted
