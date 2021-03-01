@@ -32,7 +32,7 @@ backend app-servers
     {% endif %}
     {% if groups['tag_AnsibleGroup_apps'] is defined %}
       {% for app in groups['tag_AnsibleGroup_apps'] %}
-        server app{{loop.index}} {{ hostvars[app]['ansible_facts']['default_ipv4']['address'] }}:8080 cookie app{{loop.index}} check
+        server app{{loop.index}} {{ hostvars[app]['ec2_private_ip_address'] }}:8080 cookie app{{loop.index}} check
       {% endfor %}
     {% endif %}
 
