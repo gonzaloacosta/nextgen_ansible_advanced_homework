@@ -11,9 +11,8 @@
     tags:
       - osp.smoke
 
-  - name: Retrieve lb (frontend) public_v4
-    debug:
-      msg: "{{result.openstack_servers[0].public_v4}}"
+  - debug:
+      msg: "{{ result.openstack_servers[0].public_v4 }}"
 
   - name: Curl website
     uri:
