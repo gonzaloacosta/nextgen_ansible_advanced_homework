@@ -32,7 +32,6 @@ backend app-servers
     {% endif %}
     {% if groups['tag_AnsibleGroup_apps'] is defined %}
       {% for host in groups['tag_AnsibleGroup_apps'] %}
-        server app{{loop.index}} {{ {{ hostvars[host]['ansible_facts']['eth0']['ipv4']['address'] }} }}:8080 cookie app{{loop.index}} check
+        server app{{loop.index}} {{ hostvars[host]['ansible_facts']['eth0']['ipv4']['address'] }}:8080 cookie app{{loop.index}} check
       {% endfor %}
     {% endif %}
-
