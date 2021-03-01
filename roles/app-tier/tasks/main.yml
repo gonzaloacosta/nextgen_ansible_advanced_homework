@@ -17,7 +17,7 @@
 - name: Copy static index.html to tomcat webroot
   template:
     src: index.html.j2
-    dest: "{{ tomcat_web_root }}"/index.html
+    dest: "{{ tomcat_web_root }}/index.html"
     mode: 0644
 
 - name: Restart tomcat
