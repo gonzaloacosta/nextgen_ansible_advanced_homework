@@ -16,6 +16,7 @@
     wait_for:
       host: "{{ item.public_v4 }}"
       port: 80
+      search_regex: "Ansible Deployed Tomcat"
       delay: 10
     with_items:
       - "{{ openstack_info.ansible_facts.openstack_servers }}"
