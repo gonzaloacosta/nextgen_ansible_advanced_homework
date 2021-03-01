@@ -10,8 +10,10 @@
     tags:
       - osp.smoke
 
-  - debug:
-      msg: "{{ openstack_info }}"
+  - name: Print return information from the previous task
+    ansible.builtin.debug:
+      var: openstack_info 
+      verbosity: 2
 
   - name: Curl website
     uri:
