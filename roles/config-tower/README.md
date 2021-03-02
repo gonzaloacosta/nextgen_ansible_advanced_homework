@@ -43,4 +43,4 @@ BSD
 Author Information
 ------------------
 
-gonzalo.acosta@semperti.com
+Gonzalo Acosta <gonzalo.acosta@semperti.com>

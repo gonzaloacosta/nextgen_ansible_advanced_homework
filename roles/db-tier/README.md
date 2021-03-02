@@ -1,12 +1,19 @@
 Role Name
 =========
 
-The role setup workstation installing dependencies packages, configure Openstack cloud definition and SSH key.
+This role install postgresql in `appdbs` group servers.
 
 Requirements
 ------------
 
 * The Servers that use this role must be RHEL kind (RHEL, CentOS, Fedora, etc)
+
+  
+Role Variables
+--------------
+
+* `own_repo_path`: hostname of the cdm that contain the repo (package rpm)
+
 
 Example Playbook
 ----------------
@@ -15,7 +22,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: setup-workstation }
+         - { role: db-tier }
 
 License
 -------
@@ -25,4 +32,4 @@ BSD
 Author Information
 ------------------
 
-gonzalo.acosta@semperti.com
+Gonzalo Acosta <gonzalo.acosta@semperti.com>
