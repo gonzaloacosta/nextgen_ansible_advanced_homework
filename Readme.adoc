@@ -3,7 +3,24 @@
 
 * From the cloned repo run `site-config-tower.yml` playbook to create job templates and workflow template.
 
+**Self grading lab**
 
+The file `grade.txt` contain the output of the self-grading lab.
+
+** Relevant Variables
+
+----
+[root@control ~/nextgen_ansible_advanced_homework]# cat ~/labrc
+export TOWER_GUID=<Tower env GUID>
+export OSP_GUID=<OSP Env GUID>
+export OSP_DOMAIN=<OSP Env domain name>
+export OPENTLC_ID=<username-example.com>
+export MAIL_ID=<username@example.com>
+export OPENTLC_PASSWORD=<Your OPENTLC Password>
+export GITHUB_REPO=https://github.com/gonzalo.acosta/nextgen_ansible_advanced_homework.git
+export JQ_REPO_BASE=http://www.opentlc.com/download/ansible_bootcamp
+export REGION=us-east-1
+----
 
 .List of Playbooks
 [%header,cols=2*]
