@@ -1,0 +1,50 @@
+[root@control 0 ~/nextgen_ansible_advanced_homework master ↑·2|✔]# ansible-playbook grading-script.yml -e OSP_GUID=${OSP_GUID} -e ANSIBLE_ADVANCE_GUID=${ANSIBLE_ADVANCE_GUID}
+
+PLAY [localhost] ************************************************************************************************************************************************************
+
+TASK [Create In-memory Inventory] *******************************************************************************************************************************************
+changed: [localhost]
+
+PLAY [workstation] **********************************************************************************************************************************************************
+
+TASK [OpenStack servers] ****************************************************************************************************************************************************
+ok: [workstation-0154.dynamic.opentlc.com]
+
+TASK [Check if all osp instance exist] **************************************************************************************************************************************
+ok: [workstation-0154.dynamic.opentlc.com] => {
+    "msg": "Hello world!"
+}
+
+TASK [debug] ****************************************************************************************************************************************************************
+ok: [workstation-0154.dynamic.opentlc.com] => {
+    "osp_instance": {
+        "changed": false, 
+        "failed": false, 
+        "msg": "Hello world!"
+    }
+}
+
+TASK [Access website] *******************************************************************************************************************************************************
+ok: [workstation-0154.dynamic.opentlc.com] => (item={u'vm_state': u'active', u'OS-EXT-STS:task_state': None, u'addresses': {u'int_network': [{u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:a9:8d:6c', u'version': 4, u'addr': u'172.16.0.199', u'OS-EXT-IPS:type': u'fixed'}, {u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:a9:8d:6c', u'version': 4, u'addr': u'192.0.2.187', u'OS-EXT-IPS:type': u'floating'}]}, u'terminated_at': None, u'image': {u'id': u'fff6dae0-e5d3-4dd9-9277-59ab89bafbe1'}, u'OS-EXT-STS:vm_state': u'active', u'OS-EXT-SRV-ATTR:instance_name': u'instance-0000001c', u'OS-SRV-USG:launched_at': u'2021-03-01T13:37:49.000000', u'flavor': {u'id': u'9a831e40-14cf-41fe-9bdb-3da655161c29'}, u'az': u'nova', u'id': u'd777cfd2-4d90-468f-bb78-40c38692d4a0', u'cloud': u'openstack', u'has_config_drive': False, u'user_id': u'407c91c92264417aaec09d86164807fd', u'disk_config': u'MANUAL', u'OS-DCF:diskConfig': u'MANUAL', u'networks': {}, u'accessIPv4': u'192.0.2.187', u'accessIPv6': u'', u'location': {u'project': {u'id': u'4e07f423a12f437388a97a533bb9eef9', u'domain_id': None, u'name': u'admin', u'domain_name': None}, u'zone': u'nova', u'region_name': u'regionOne', u'cloud': u'openstack'}, u'power_state': 1, u'public_v4': u'192.0.2.187', u'progress': 0, u'OS-EXT-STS:power_state': 1, u'OS-EXT-AZ:availability_zone': u'nova', u'launched_at': u'2021-03-01T13:37:49.000000', u'metadata': {u'group': u'frontends', u'deployment_name': u'QA'}, u'status': u'ACTIVE', u'updated': u'2021-03-01T23:45:16Z', u'hostId': u'26c3d8074f9fab9d266b2a9243f2ee4f2531651afc35311e3290a8b2', u'OS-EXT-SRV-ATTR:host': u'overcloud-novacompute-1.localdomain', u'OS-SRV-USG:terminated_at': None, u'key_name': u'ansible_ssh', u'public_v6': u'', u'private_v4': u'172.16.0.199', u'host_id': u'26c3d8074f9fab9d266b2a9243f2ee4f2531651afc35311e3290a8b2', u'task_state': None, u'properties': {u'OS-EXT-STS:task_state': None, u'OS-EXT-SRV-ATTR:host': u'overcloud-novacompute-1.localdomain', u'OS-SRV-USG:terminated_at': None, u'OS-DCF:diskConfig': u'MANUAL', u'os-extended-volumes:volumes_attached': [], u'OS-EXT-STS:vm_state': u'active', u'OS-EXT-SRV-ATTR:instance_name': u'instance-0000001c', u'OS-SRV-USG:launched_at': u'2021-03-01T13:37:49.000000', u'OS-EXT-SRV-ATTR:hypervisor_hostname': u'overcloud-novacompute-1.localdomain', u'OS-EXT-STS:power_state': 1, u'OS-EXT-AZ:availability_zone': u'nova'}, u'security_groups': [{u'name': u'frontend'}], u'interface_ip': u'192.0.2.187', u'OS-EXT-SRV-ATTR:hypervisor_hostname': u'overcloud-novacompute-1.localdomain', u'name': u'frontend', u'adminPass': None, u'tenant_id': u'4e07f423a12f437388a97a533bb9eef9', u'region': u'regionOne', u'created': u'2021-03-01T13:37:39Z', u'os-extended-volumes:volumes_attached': [], u'project_id': u'4e07f423a12f437388a97a533bb9eef9', u'volumes': [], u'config_drive': u''})
+
+TASK [Fail] *****************************************************************************************************************************************************************
+skipping: [workstation-0154.dynamic.opentlc.com]
+
+PLAY [localhost] ************************************************************************************************************************************************************
+
+TASK [Access website] *******************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [Fail] *****************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [Success] **************************************************************************************************************************************************************
+ok: [localhost] => {
+    "msg": "Congrats Yours HW Assignment is completed"
+}
+
+PLAY RECAP ******************************************************************************************************************************************************************
+localhost                  : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+workstation-0154.dynamic.opentlc.com : ok=4    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+
+[root@control 0 ~/nextgen_ansible_advanced_homework master ↑·2|✔]# 
