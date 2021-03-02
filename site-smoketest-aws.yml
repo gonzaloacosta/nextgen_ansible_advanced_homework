@@ -14,7 +14,7 @@
     - aws.smoke
 
   - debug: 
-      msg: "{{ webpage.content }}"
+      msg: "{{ webpage.results[0].content }}"
 
   - name: Fail if 'Ansible has done its job' is not in the page content
     fail:
